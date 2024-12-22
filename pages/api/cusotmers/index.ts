@@ -1,5 +1,5 @@
 import { db } from "@/utils/db";
-import { createAccount } from "@/utils/helpers";
+import { createCustomer } from "@/utils/helpers";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -15,20 +15,20 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 }
 
 function POST(req: NextApiRequest, res: NextApiResponse) {
-  const { customerId, initialDeposit } = req.body;
+  const { firstName, lastName, email } = req.body;
 
-  if (typeof customerId !== "string" || typeof initialDeposit !== "number") {
+  if (!firstName || !lastName || !email) {
     return res.status(400).json({ errorMessage: "Invalid body parameters" });
   }
 
-  // Create a new account in the db
-  const newAccount = createAccount(customerId, initialDeposit);
+  // Create a new customer in the db
+  const newAccount = createCustomer(firstName, lastName, email);
   return res.status(200).json(newAccount);
 }
 
 function GET(req: NextApiRequest, res: NextApiResponse) {
-  // Retrieve all accounts from the db
-  const accounts = db.accounts;
+  // Retrieve all customers from the db
+  const customers = db.customers;
 
-  return res.status(200).json(accounts);
+  return res.status(200).json(customers);
 }

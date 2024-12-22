@@ -1,12 +1,24 @@
 export interface Database {
+  customers: Customer[];
   accounts: BankAccount[];
   transfers: Transfer[];
+}
+
+export interface Customer {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface BankAccount {
   id: string;
   customerId: string;
   balance: number;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface Transfer {

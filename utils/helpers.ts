@@ -1,6 +1,28 @@
 import { db } from "./db";
-import { BankAccount, Transfer } from "./types";
+import { BankAccount, Customer, Transfer } from "./types";
 
+/**
+ * Create a new customer
+ * Returns the created customer.
+ */
+export function createCustomer(
+  firstName: string,
+  lastName: string,
+  email: string
+): Customer {
+  const newCustomer: Customer = {
+    id: `customer_${Date.now()}_${Math.floor(Math.random() * 1000)}`,
+    firstName: firstName,
+    lastName: lastName,
+    email: email,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
+
+  // Store the new account in the db
+  db.customers.push(newCustomer);
+  return newCustomer;
+}
 /**
  * Create a new account with an initial deposit.
  * Returns the created account.
@@ -13,6 +35,8 @@ export function createAccount(
     id: `account_${Date.now()}_${Math.floor(Math.random() * 1000)}`,
     customerId: customerId,
     balance: initialDeposit,
+    createdAt: new Date(),
+    updatedAt: new Date(),
   };
 
   // Store the new account in the db
