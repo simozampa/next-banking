@@ -39,10 +39,7 @@ export default function CreateAccountForm({
     >
       <h2 className="text-lg font-semibold mb-4">Create New Account</h2>
       <div className="mb-4">
-        <label
-          className="block text-gray-700 text-sm mb-2"
-          htmlFor="owner"
-        >
+        <label className="block text-gray-700 text-sm mb-2" htmlFor="owner">
           Customer ID
         </label>
         <input
@@ -74,7 +71,7 @@ export default function CreateAccountForm({
       </div>
       <div className="flex items-center justify-between">
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className="bg-indigo-500 text-sm hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           type="submit"
         >
           Create Account
