@@ -30,7 +30,7 @@ export default function Notification({
   return (
     <div
       className={classNames(
-        "absolute bottom-10 left-1/2 -x-translate-1/2 rounded-md p-4",
+        "fixed bottom-10 left-1/2 -translate-x-1/2 rounded-md p-4",
         type === NotificationType.ERROR ? "bg-red-50" : "bg-green-50"
       )}
     >

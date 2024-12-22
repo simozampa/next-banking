@@ -6,7 +6,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const pathName = usePathname();
 
   return (
-    <>
+    <div className="relative h-screen w-full">
       <nav className="py-6 shadow-sm">
         <div className="text-sm mx-auto flex justify-center items-center">
           <div className="space-x-10">
@@ -46,7 +46,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </nav>
-      <div className="container mx-auto mt-8 p-4 text-gray-700">{children}</div>
-    </>
+      <div className="mt-8 text-gray-700">{children}</div>
+    </div>
   );
 }
