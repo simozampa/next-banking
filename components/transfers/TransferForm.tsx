@@ -23,6 +23,26 @@ export default function TransferForm() {
     }, 4000);
   }, [displayNotification]);
 
+  const onClickTransferFunds = () => {
+    if (!fromAccountId || !toAccountId) {
+      setDisplayNotification({
+        type: NotificationType.ERROR,
+        message: "You must enter from and to account id",
+      });
+      return;
+    }
+
+    if (transferAmount === 0) {
+      setDisplayNotification({
+        type: NotificationType.ERROR,
+        message: "Transfer amount must be greater than 0.",
+      });
+      return;
+    }
+
+    setIsDisplayingModal(true);
+  };
+
   const transferFunds = async () => {
     try {
       const res = await fetch("/api/transfers", {
@@ -136,7 +156,7 @@ export default function TransferForm() {
         <div className="flex items-center justify-between">
           <button
             className="bg-indigo-500 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm"
-            onClick={() => setIsDisplayingModal(true)}
+            onClick={onClickTransferFunds}
           >
             Transfer Funds
           </button>

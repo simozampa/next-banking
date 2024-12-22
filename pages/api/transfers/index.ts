@@ -1,4 +1,8 @@
-import { getTransferHistory, transferFunds } from "@/utils/helpers";
+import {
+  getAccountById,
+  getTransferHistory,
+  transferFunds,
+} from "@/utils/helpers";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -40,12 +44,17 @@ function POST(req: NextApiRequest, res: NextApiResponse) {
 function GET(req: NextApiRequest, res: NextApiResponse) {
   // If an accountId is specified in query, return the transfer history
   const { accountId } = req.query;
-  if (typeof accountId === "string") {
-    const history = getTransferHistory(accountId);
-    return res.status(200).json(history);
+
+  if (!accountId || typeof accountId !== "string") {
+    return res.status(400).json({ error: "Invalid parameters." });
   }
 
-  return res
-    .status(400)
-    .json({ error: "Please provide an accountId to get history" });
+  const account = getAccountById(accountId);
+
+  if (!account) {
+    return res.status(400).json({ error: "Account not found." });
+  }
+
+  const history = getTransferHistory(accountId);
+  return res.status(200).json(history);
 }
