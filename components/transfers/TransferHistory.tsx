@@ -1,16 +1,13 @@
-import { NotificationType, Transfer } from "@/utils/types";
+import { BankAccount, NotificationType, Transfer } from "@/utils/types";
 import { useEffect, useState } from "react";
 import Notification from "../Notification";
 
 interface TransferHistoryProps {
-  selectedAccountId: string;
-  setSelectedAccountId: (id: string) => void;
+  accounts: BankAccount[];
 }
 
-export default function TransferHistory({
-  selectedAccountId,
-  setSelectedAccountId,
-}: TransferHistoryProps) {
+export default function TransferHistory({ accounts }: TransferHistoryProps) {
+  const [selectedAccountId, setSelectedAccountId] = useState("");
   const [transferHistory, setTransferHistory] = useState<Transfer[]>([]);
   const [displayNotification, setDisplayNotification] = useState<{
     type: NotificationType;
@@ -28,7 +25,13 @@ export default function TransferHistory({
   }, [displayNotification]);
 
   const getTransferHistory = async () => {
-    if (!selectedAccountId) return;
+    if (!selectedAccountId) {
+      setDisplayNotification({
+        type: NotificationType.ERROR,
+        message: "You must enter the account id",
+      });
+      return;
+    }
     try {
       const res = await fetch(`/api/transfers?accountId=${selectedAccountId}`, {
         method: "GET",
@@ -71,13 +74,19 @@ export default function TransferHistory({
           >
             Account ID
           </label>
-          <input
+          <select
             className="text-sm shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="selectedAccountId"
-            type="text"
             value={selectedAccountId}
+            disabled={accounts.length === 0}
             onChange={(e) => setSelectedAccountId(e.target.value)}
-          />
+          >
+            {accounts.map((account) => (
+              <option value={account.id} key={account.id}>
+                {account.id}
+              </option>
+            ))}
+          </select>
         </div>
         <button
           className="text-sm bg-indigo-500 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-4"

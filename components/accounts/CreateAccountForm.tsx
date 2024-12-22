@@ -1,4 +1,4 @@
-import { NotificationType } from "@/utils/types";
+import { Customer, NotificationType } from "@/utils/types";
 import { useEffect, useState } from "react";
 import Notification from "../Notification";
 
@@ -8,6 +8,7 @@ export default function CreateAccountForm({
   onAccountCreated: () => void;
 }) {
   const [customerId, setCustomerId] = useState("");
+  const [customers, setCustomers] = useState<Customer[]>([]);
   const [initialDeposit, setInitialDeposit] = useState(0);
   const [displayNotification, setDisplayNotification] = useState<{
     type: NotificationType;
@@ -23,6 +24,23 @@ export default function CreateAccountForm({
       setDisplayNotification(null);
     }, 4000);
   }, [displayNotification]);
+
+  useEffect(() => {
+    fetchCustomers();
+  }, []);
+
+  const fetchCustomers = async () => {
+    try {
+      const res = await fetch("/api/customers");
+      const data = await res.json();
+      if (!res.ok) {
+        console.error("Error fetching customers");
+      }
+      setCustomers(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const createAccount = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -75,14 +93,20 @@ export default function CreateAccountForm({
           <label className="block text-gray-700 text-sm mb-2" htmlFor="owner">
             Customer ID
           </label>
-          <input
+          <select
             className="text-sm shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="owner"
-            type="text"
-            value={customerId}
+            defaultValue={customerId}
             onChange={(e) => setCustomerId(e.target.value)}
             required
-          />
+            disabled={customers.length === 0}
+          >
+            {customers.map((customer) => (
+              <option value={customer.id} key={customer.id}>
+                {customer.id}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="mb-6">
           <label

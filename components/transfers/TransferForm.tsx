@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import ConfirmationModal from "../ConfirmationModal";
 import Notification from "../Notification";
-import { NotificationType } from "@/utils/types";
+import { BankAccount, NotificationType } from "@/utils/types";
 
-export default function TransferForm() {
+export default function TransferForm({
+  accounts,
+}: {
+  accounts: BankAccount[];
+}) {
   const [isDisplayingModal, setIsDisplayingModal] = useState(false);
   const [fromAccountId, setFromAccountId] = useState("");
   const [toAccountId, setToAccountId] = useState("");
@@ -110,14 +114,20 @@ export default function TransferForm() {
           >
             From Account ID
           </label>
-          <input
+          <select
             className="shadow appearance-none border text-sm rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="fromAccountId"
-            type="text"
             value={fromAccountId}
             onChange={(e) => setFromAccountId(e.target.value)}
             required
-          />
+            disabled={accounts.length === 0}
+          >
+            {accounts.map((account) => (
+              <option value={account.id} key={account.id}>
+                {account.id}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="mb-4">
           <label
@@ -126,14 +136,20 @@ export default function TransferForm() {
           >
             To Account ID
           </label>
-          <input
+          <select
             className="shadow appearance-none border text-sm rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="toAccountId"
-            type="text"
             value={toAccountId}
             onChange={(e) => setToAccountId(e.target.value)}
             required
-          />
+            disabled={accounts.length === 0}
+          >
+            {accounts.map((account) => (
+              <option value={account.id} key={account.id}>
+                {account.id}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="mb-6">
           <label

@@ -82,6 +82,10 @@ export function transferFunds(
     return { success: false, error: "To account not found" };
   }
 
+  if (fromAccount === toAccount) {
+    return { success: false, error: "Cannot transfer found to this account." };
+  }
+
   if (fromAccount.balance < amount) {
     return { success: false, error: "Insufficient balance" };
   }
