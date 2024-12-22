@@ -27,7 +27,18 @@ export default function TransferForm({
     }, 4000);
   }, [displayNotification]);
 
+  useEffect(() => {
+    if (accounts.length === 0) {
+      return;
+    }
+
+    const firstAvailableAccount = accounts[0];
+    setToAccountId(firstAvailableAccount.id);
+    setFromAccountId(firstAvailableAccount.id);
+  }, [accounts]);
+
   const onClickTransferFunds = () => {
+    console.log(fromAccountId, toAccountId);
     if (!fromAccountId || !toAccountId) {
       setDisplayNotification({
         type: NotificationType.ERROR,
@@ -73,8 +84,6 @@ export default function TransferForm({
       }
 
       console.log("Transfer Successful");
-      setFromAccountId("");
-      setToAccountId("");
       setTransferAmount(0);
       setIsDisplayingModal(false);
       setDisplayNotification({

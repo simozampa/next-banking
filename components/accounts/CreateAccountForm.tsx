@@ -37,6 +37,7 @@ export default function CreateAccountForm({
         console.error("Error fetching customers");
       }
       setCustomers(data);
+      setCustomerId(data[0].id);
     } catch (err) {
       console.error(err);
     }

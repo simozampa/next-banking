@@ -1,6 +1,7 @@
 import { BankAccount, NotificationType, Transfer } from "@/utils/types";
 import { useEffect, useState } from "react";
 import Notification from "../Notification";
+import classNames from "classnames";
 
 interface TransferHistoryProps {
   accounts: BankAccount[];
@@ -23,6 +24,14 @@ export default function TransferHistory({ accounts }: TransferHistoryProps) {
       setDisplayNotification(null);
     }, 4000);
   }, [displayNotification]);
+
+  useEffect(() => {
+    if (accounts.length === 0) {
+      return;
+    }
+
+    setSelectedAccountId(accounts[0].id);
+  }, [accounts]);
 
   const getTransferHistory = async () => {
     if (!selectedAccountId) {
@@ -96,20 +105,25 @@ export default function TransferHistory({ accounts }: TransferHistoryProps) {
         </button>
         {transferHistory.length > 0 && (
           <ul className="space-y-2">
-            <li className="grid grid-cols-4 border-b pb-2 text-xs">
-              <p>From:</p>
-              <p>To:</p>
+            <li className="grid grid-cols-2 border-b pb-2 text-xs">
               <p>Amount:</p>
               <p>Date:</p>
             </li>
             {transferHistory.map((transfer, index) => (
               <li
                 key={index}
-                className="grid grid-cols-4 border-b pb-2 text-sm"
+                className="grid grid-cols-2 border-b pb-2 text-sm"
               >
-                <p className="truncate">{transfer.fromAccountId}</p>
-                <p className="truncate">{transfer.toAccountId}</p>
-                <p>${transfer.amount.toFixed(2)}</p>
+                <p
+                  className={classNames(
+                    transfer.toAccountId === selectedAccountId &&
+                      "text-green-500"
+                  )}
+                >
+                  {transfer.toAccountId === selectedAccountId && "+"}$
+                  {transfer.amount.toFixed(2)}
+                </p>
+
                 <p>{new Date(transfer.timestamp).toLocaleString()}</p>
               </li>
             ))}
