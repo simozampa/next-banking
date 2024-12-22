@@ -1,11 +1,11 @@
 export interface Database {
-  accounts: Account[];
+  accounts: BankAccount[];
   transfers: Transfer[];
 }
 
-export interface Account {
+export interface BankAccount {
   id: string;
-  owner: string;
+  customerId: string;
   balance: number;
 }
 

@@ -1,14 +1,17 @@
 import { db } from "./db";
-import { Account, Transfer } from "./types";
+import { BankAccount, Transfer } from "./types";
 
 /**
  * Create a new account with an initial deposit.
  * Returns the created account.
  */
-export function createAccount(owner: string, initialDeposit: number): Account {
-  const newAccount: Account = {
+export function createAccount(
+  customerId: string,
+  initialDeposit: number
+): BankAccount {
+  const newAccount: BankAccount = {
     id: `account_${Date.now()}_${Math.floor(Math.random() * 1000)}`,
-    owner,
+    customerId: customerId,
     balance: initialDeposit,
   };
 
@@ -20,7 +23,7 @@ export function createAccount(owner: string, initialDeposit: number): Account {
 /**
  * Find an account by ID.
  */
-export function getAccountById(accountId: string): Account | undefined {
+export function getAccountById(accountId: string): BankAccount | undefined {
   return db.accounts.find((x) => x.id === accountId);
 }
 
