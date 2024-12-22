@@ -22,11 +22,13 @@ function POST(req: NextApiRequest, res: NextApiResponse) {
     return res.status(400).json({ errorMessage: "Invalid body parameters" });
   }
 
+  // Create a new account in the db
   const newAccount = createAccount(customerId, initialDeposit);
   return res.status(200).json(newAccount);
 }
 
 function GET(req: NextApiRequest, res: NextApiResponse) {
+  // Retrieve all accounts from the db
   const accounts = db.accounts;
 
   return res.status(200).json(accounts);
