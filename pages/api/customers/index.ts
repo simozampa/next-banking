@@ -21,6 +21,13 @@ function POST(req: NextApiRequest, res: NextApiResponse) {
     return res.status(400).json({ errorMessage: "Invalid body parameters" });
   }
 
+  // Check if an account with this email already exists
+  if (db.customers.some((x) => x.email === email)) {
+    return res
+      .status(400)
+      .json({ errorMessage: "An account for this email already exists." });
+  }
+
   // Create a new customer in the db
   const newAccount = createCustomer(firstName, lastName, email);
   return res.status(200).json(newAccount);

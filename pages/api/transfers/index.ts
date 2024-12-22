@@ -17,8 +17,11 @@ function POST(req: NextApiRequest, res: NextApiResponse) {
   const { fromAccountId, toAccountId, amount } = req.body;
 
   if (
+    !fromAccountId ||
     typeof fromAccountId !== "string" ||
+    !toAccountId ||
     typeof toAccountId !== "string" ||
+    !amount ||
     typeof amount !== "number"
   ) {
     return res.status(400).json({ error: "Invalid body parameters" });

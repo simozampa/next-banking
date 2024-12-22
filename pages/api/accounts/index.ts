@@ -17,7 +17,13 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 function POST(req: NextApiRequest, res: NextApiResponse) {
   const { customerId, initialDeposit } = req.body;
 
-  if (typeof customerId !== "string" || typeof initialDeposit !== "number") {
+  if (
+    !customerId ||
+    typeof customerId !== "string" ||
+    !initialDeposit ||
+    typeof initialDeposit !== "number" ||
+    initialDeposit === 0
+  ) {
     return res.status(400).json({ errorMessage: "Invalid body parameters" });
   }
 

@@ -13,7 +13,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 function GET(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.query;
 
-  if (typeof id !== "string") {
+  if (!id || typeof id !== "string") {
     return res.status(400).json({ error: "Invalid account ID" });
   }
 
