@@ -7,14 +7,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <nav className="py-4 shadow-sm">
+      <nav className="py-6 shadow-sm">
         <div className="text-sm mx-auto flex justify-center items-center">
           <div className="space-x-10">
             <Link
-              href="/customers"
+              href="/"
               className={classNames(
-                "text-gray-800 hover:text-gray-900",
-                pathName === "/customers"
+                "font-medium",
+                pathName === "/"
                   ? "text-indigo-500"
                   : "text-gray-800 hover:text-gray-900"
               )}
@@ -24,6 +24,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Link
               href="/accounts"
               className={classNames(
+                "font-medium",
                 pathName === "/accounts"
                   ? "text-indigo-500"
                   : "text-gray-800 hover:text-gray-900"
@@ -34,6 +35,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Link
               href="/transfers"
               className={classNames(
+                "font-medium",
                 pathName === "/transfers"
                   ? "text-indigo-500"
                   : "text-gray-800 hover:text-gray-900"

@@ -37,9 +37,11 @@ export default function CreateCustomerForm({
   return (
     <form
       onSubmit={createNewCustomer}
-      className="bg-white max-w-3xl shadow-md rounded px-8 pt-6 pb-8 mb-4"
+      className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
     >
-      <h2 className="text-lg font-semibold mb-4">Create New Customer</h2>
+      <h2 className="text-md font-semibold text-gray-900 mb-4">
+        Create New Customer
+      </h2>
       <div className="mb-4">
         <label className="block text-gray-700 text-sm mb-2" htmlFor="firstName">
           First Name
@@ -48,6 +50,7 @@ export default function CreateCustomerForm({
           className="shadow text-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="firstName"
           type="text"
+          placeholder="John"
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
           required
@@ -60,6 +63,7 @@ export default function CreateCustomerForm({
         <input
           className="text-sm shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="lastName"
+          placeholder="Doe"
           type="text"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
@@ -74,6 +78,7 @@ export default function CreateCustomerForm({
           className="shadow text-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="email"
           type="email"
+          placeholder="john@doe.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required

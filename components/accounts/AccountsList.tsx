@@ -2,8 +2,8 @@ import { BankAccount } from "@/utils/types";
 
 export default function AccountList({ accounts }: { accounts: BankAccount[] }) {
   return (
-    <div>
-      <h2 className="text-lg font-semibold mb-4">Account List</h2>
+    <div className="shadow-md px-8 py-6 rounded">
+      <h2 className="text-md font-semibold mb-4">Account List</h2>
       <ul className="space-y-2">
         <li className="text-xs grid grid-cols-3 space-x-2 p-4">
           <p>ID</p>

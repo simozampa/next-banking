@@ -42,7 +42,7 @@ export default function TransferHistory({
 
   return (
     <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-      <h2 className="text-lg font-semibold mb-4">Transfer History</h2>
+      <h2 className="text-md font-semibold mb-4">Transfer History</h2>
       <div className="mb-4">
         <label
           className="block text-gray-700 text-sm mb-2"
@@ -64,22 +64,24 @@ export default function TransferHistory({
       >
         Get History
       </button>
-      <ul className="space-y-2">
-        <li className="grid grid-cols-4 border-b pb-2 text-xs">
-          <p>From:</p>
-          <p>To:</p>
-          <p>Amount:</p>
-          <p>Date:</p>
-        </li>
-        {transferHistory.map((transfer, index) => (
-          <li key={index} className="grid grid-cols-4 border-b pb-2 text-sm">
-            <p className="truncate">{transfer.fromAccountId}</p>
-            <p className="truncate">{transfer.toAccountId}</p>
-            <p>${transfer.amount.toFixed(2)}</p>
-            <p>{new Date(transfer.timestamp).toLocaleString()}</p>
+      {transferHistory.length > 0 && (
+        <ul className="space-y-2">
+          <li className="grid grid-cols-4 border-b pb-2 text-xs">
+            <p>From:</p>
+            <p>To:</p>
+            <p>Amount:</p>
+            <p>Date:</p>
           </li>
-        ))}
-      </ul>
+          {transferHistory.map((transfer, index) => (
+            <li key={index} className="grid grid-cols-4 border-b pb-2 text-sm">
+              <p className="truncate">{transfer.fromAccountId}</p>
+              <p className="truncate">{transfer.toAccountId}</p>
+              <p>${transfer.amount.toFixed(2)}</p>
+              <p>{new Date(transfer.timestamp).toLocaleString()}</p>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
