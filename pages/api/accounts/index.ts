@@ -1,5 +1,5 @@
 import { db } from "@/utils/db";
-import { createAccount } from "@/utils/helpers";
+import { createAccount, getCustomerById } from "@/utils/helpers";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -24,7 +24,13 @@ function POST(req: NextApiRequest, res: NextApiResponse) {
     typeof initialDeposit !== "number" ||
     initialDeposit === 0
   ) {
-    return res.status(400).json({ errorMessage: "Invalid body parameters" });
+    return res.status(400).json({ error: "Invalid body parameters" });
+  }
+
+  const customer = getCustomerById(customerId);
+
+  if (!customer) {
+    return res.status(400).json({ error: "Customer not found." });
   }
 
   // Create a new account in the db

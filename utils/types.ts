@@ -27,3 +27,8 @@ export interface Transfer {
   amount: number;
   timestamp: Date;
 }
+
+export enum NotificationType {
+  CONFIRMATION = "confimation",
+  ERROR = "error",
+}

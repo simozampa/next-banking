@@ -1,11 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ConfirmationModal from "../ConfirmationModal";
+import Notification from "../Notification";
+import { NotificationType } from "@/utils/types";
 
 export default function TransferForm() {
   const [isDisplayingModal, setIsDisplayingModal] = useState(false);
   const [fromAccountId, setFromAccountId] = useState("");
   const [toAccountId, setToAccountId] = useState("");
   const [transferAmount, setTransferAmount] = useState(0);
+  const [displayNotification, setDisplayNotification] = useState<{
+    type: NotificationType;
+    message: string;
+  } | null>();
+
+  useEffect(() => {
+    if (!displayNotification) {
+      return;
+    }
+
+    setTimeout(() => {
+      setDisplayNotification(null);
+    }, 4000);
+  }, [displayNotification]);
 
   const transferFunds = async () => {
     try {
@@ -23,12 +39,24 @@ export default function TransferForm() {
 
       if (!res.ok) {
         console.error(data.error || "Error transferring funds");
+        setIsDisplayingModal(false);
+        setDisplayNotification({
+          type: NotificationType.ERROR,
+          message: data.error,
+        });
+
+        return;
       }
 
       console.log("Transfer Successful");
       setFromAccountId("");
       setToAccountId("");
       setTransferAmount(0);
+      setIsDisplayingModal(false);
+      setDisplayNotification({
+        type: NotificationType.CONFIRMATION,
+        message: "Transfer sent successfully",
+      });
     } catch (err) {
       console.error(err);
     }
@@ -45,6 +73,13 @@ export default function TransferForm() {
         }}
         onCancel={() => setIsDisplayingModal(false)}
       />
+
+      {displayNotification && (
+        <Notification
+          message={displayNotification.message}
+          type={displayNotification.type}
+        />
+      )}
 
       <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
         <h2 className="text-md font-semibold mb-4">Transfer Funds</h2>

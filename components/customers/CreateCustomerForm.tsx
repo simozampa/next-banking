@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { NotificationType } from "@/utils/types";
+import { useEffect, useState } from "react";
+import Notification from "../Notification";
 
 export default function CreateCustomerForm({
   onCustomerCreated,
@@ -8,6 +10,20 @@ export default function CreateCustomerForm({
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [displayNotification, setDisplayNotification] = useState<{
+    type: NotificationType;
+    message: string;
+  } | null>();
+
+  useEffect(() => {
+    if (!displayNotification) {
+      return;
+    }
+
+    setTimeout(() => {
+      setDisplayNotification(null);
+    }, 4000);
+  }, [displayNotification]);
 
   const createNewCustomer = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,12 +38,22 @@ export default function CreateCustomerForm({
 
       if (!res.ok) {
         console.error(data.errorMessage || "Error creating customer");
+        setDisplayNotification({
+          type: NotificationType.ERROR,
+          message: data.error,
+        });
+
+        return;
       }
 
       console.log(`Customer created: ${JSON.stringify(data)}`);
       setFirstName("");
       setLastName("");
       setEmail("");
+      setDisplayNotification({
+        type: NotificationType.CONFIRMATION,
+        message: "Account created succesfully",
+      });
       onCustomerCreated();
     } catch (err) {
       console.error(err);
@@ -35,63 +61,77 @@ export default function CreateCustomerForm({
   };
 
   return (
-    <form
-      onSubmit={createNewCustomer}
-      className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
-    >
-      <h2 className="text-md font-semibold text-gray-900 mb-4">
-        Create New Customer
-      </h2>
-      <div className="mb-4">
-        <label className="block text-gray-700 text-sm mb-2" htmlFor="firstName">
-          First Name
-        </label>
-        <input
-          className="shadow text-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="firstName"
-          type="text"
-          placeholder="John"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-          required
+    <>
+      {displayNotification && (
+        <Notification
+          message={displayNotification.message}
+          type={displayNotification.type}
         />
-      </div>
-      <div className="mb-4">
-        <label className="block text-gray-700 text-sm mb-2" htmlFor="lastName">
-          Last Name
-        </label>
-        <input
-          className="text-sm shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="lastName"
-          placeholder="Doe"
-          type="text"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-          required
-        />
-      </div>
-      <div className="mb-6">
-        <label className="block text-gray-700 text-sm mb-2" htmlFor="email">
-          Email
-        </label>
-        <input
-          className="shadow text-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="email"
-          type="email"
-          placeholder="john@doe.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </div>
-      <div className="flex items-center justify-between">
-        <button
-          className="bg-indigo-500 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm"
-          type="submit"
-        >
-          Create Customer
-        </button>
-      </div>
-    </form>
+      )}
+      <form
+        onSubmit={createNewCustomer}
+        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+      >
+        <h2 className="text-md font-semibold text-gray-900 mb-4">
+          Create New Customer
+        </h2>
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm mb-2"
+            htmlFor="firstName"
+          >
+            First Name
+          </label>
+          <input
+            className="shadow text-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="firstName"
+            type="text"
+            placeholder="John"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm mb-2"
+            htmlFor="lastName"
+          >
+            Last Name
+          </label>
+          <input
+            className="text-sm shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="lastName"
+            placeholder="Doe"
+            type="text"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            required
+          />
+        </div>
+        <div className="mb-6">
+          <label className="block text-gray-700 text-sm mb-2" htmlFor="email">
+            Email
+          </label>
+          <input
+            className="shadow text-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="email"
+            type="email"
+            placeholder="john@doe.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div className="flex items-center justify-between">
+          <button
+            className="bg-indigo-500 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm"
+            type="submit"
+          >
+            Create Customer
+          </button>
+        </div>
+      </form>
+    </>
   );
 }

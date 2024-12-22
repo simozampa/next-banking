@@ -23,6 +23,14 @@ export function createCustomer(
   db.customers.push(newCustomer);
   return newCustomer;
 }
+
+/**
+ * Find an account by ID.
+ */
+export function getCustomerById(customerId: string): Customer | undefined {
+  return db.customers.find((x) => x.id === customerId);
+}
+
 /**
  * Create a new account with an initial deposit.
  * Returns the created account.
