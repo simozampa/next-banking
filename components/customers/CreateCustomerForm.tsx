@@ -17,16 +17,18 @@ export default function CreateCustomerForm({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ firstName, lastName, email }),
       });
+
       const data = await res.json();
-      if (res.ok) {
-        alert(`Customer created: ${JSON.stringify(data)}`);
-        setFirstName("");
-        setLastName("");
-        setEmail("");
-        onCustomerCreated();
-      } else {
-        alert(data.errorMessage || "Error creating customer");
+
+      if (!res.ok) {
+        console.error(data.errorMessage || "Error creating customer");
       }
+
+      console.log(`Customer created: ${JSON.stringify(data)}`);
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      onCustomerCreated();
     } catch (err) {
       console.error(err);
     }

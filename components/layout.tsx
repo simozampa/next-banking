@@ -23,13 +23,21 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </Link>
             <Link
               href="/accounts"
-              className="text-gray-800 hover:text-gray-900"
+              className={classNames(
+                pathName === "/accounts"
+                  ? "text-indigo-500"
+                  : "text-gray-800 hover:text-gray-900"
+              )}
             >
               Accounts
             </Link>
             <Link
               href="/transfers"
-              className="text-gray-800 hover:text-gray-900"
+              className={classNames(
+                pathName === "/transfers"
+                  ? "text-indigo-500"
+                  : "text-gray-800 hover:text-gray-900"
+              )}
             >
               Transfers
             </Link>

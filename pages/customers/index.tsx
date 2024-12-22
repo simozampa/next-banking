@@ -11,7 +11,7 @@ export default function CustomersPage() {
       const res = await fetch("/api/customers");
       const data = await res.json();
       if (!res.ok) {
-        alert("Error fetching customers");
+        console.error("Error fetching customers");
       }
       setCustomers(data);
     } catch (err) {
@@ -22,7 +22,7 @@ export default function CustomersPage() {
   return (
     <div className="space-y-8 max-w-3xl mx-auto">
       <CreateCustomerForm onCustomerCreated={refreshCustomers} />
-      <CustomerList customers={customers} />
+      {customers.length > 0 && <CustomerList customers={customers} />}
     </div>
   );
 }
