@@ -1,10 +1,14 @@
 import AccountList from "@/components/accounts/AccountsList";
 import CreateAccountForm from "@/components/accounts/CreateAccountForm";
 import { BankAccount } from "@/utils/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function AccountsPage() {
   const [accounts, setAccounts] = useState<BankAccount[]>([]);
+
+  useEffect(() => {
+    refreshAccounts();
+  }, []);
 
   const refreshAccounts = async () => {
     try {

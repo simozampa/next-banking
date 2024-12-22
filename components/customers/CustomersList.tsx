@@ -5,10 +5,10 @@ export default function CustomerList({ customers }: { customers: Customer[] }) {
     <div>
       <h2 className="text-lg font-semibold mb-4">Customer List</h2>
       <ul className="space-y-2">
-        <li className="text-sm grid grid-cols-3 space-x-2 p-4">
-          <p>id</p>
-          <p>name</p>
-          <p>email</p>
+        <li className="text-xs grid grid-cols-3 space-x-2 p-4">
+          <p>ID</p>
+          <p>Name</p>
+          <p>Email</p>
         </li>
         {customers.map((customer) => (
           <li

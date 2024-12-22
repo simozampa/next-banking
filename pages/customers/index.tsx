@@ -1,10 +1,14 @@
 import CreateCustomerForm from "@/components/customers/CreateCustomerForm";
 import CustomerList from "@/components/customers/CustomersList";
 import { Customer } from "@/utils/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function CustomersPage() {
   const [customers, setCustomers] = useState<Customer[]>([]);
+
+  useEffect(() => {
+    refreshCustomers();
+  }, []);
 
   const refreshCustomers = async () => {
     try {

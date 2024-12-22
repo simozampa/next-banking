@@ -5,7 +5,7 @@ export default function AccountList({ accounts }: { accounts: BankAccount[] }) {
     <div>
       <h2 className="text-lg font-semibold mb-4">Account List</h2>
       <ul className="space-y-2">
-        <li className="text-sm grid grid-cols-3 space-x-2 p-4">
+        <li className="text-xs grid grid-cols-3 space-x-2 p-4">
           <p>ID</p>
           <p>Customer ID</p>
           <p>Balance</p>
