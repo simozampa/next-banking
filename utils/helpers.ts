@@ -120,7 +120,9 @@ export function getTransferHistory(accountId: string): Transfer[] {
   }
 
   // Retrieve all transfers from and to the account
-  const history = db.transfers.filter((x) => x.fromAccountId || x.toAccountId);
+  const history = db.transfers.filter(
+    (x) => x.fromAccountId === accountId || x.toAccountId === accountId
+  );
 
   return history;
 }

@@ -16,6 +16,7 @@ export default function CustomersPage() {
       const data = await res.json();
       if (!res.ok) {
         console.error("Error fetching customers");
+        return;
       }
       setCustomers(data);
     } catch (err) {

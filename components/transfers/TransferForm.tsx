@@ -79,7 +79,6 @@ export default function TransferForm({
           type: NotificationType.ERROR,
           message: data.error,
         });
-
         return;
       }
 

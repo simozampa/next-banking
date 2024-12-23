@@ -1,15 +1,14 @@
-import { BankAccount, NotificationType, Transfer } from "@/utils/types";
+import { BankAccount, NotificationType } from "@/utils/types";
 import { useEffect, useState } from "react";
 import Notification from "../Notification";
-import classNames from "classnames";
 
 interface TransferHistoryProps {
   accounts: BankAccount[];
 }
 
-export default function TransferHistory({ accounts }: TransferHistoryProps) {
+export default function AccountBalance({ accounts }: TransferHistoryProps) {
   const [selectedAccountId, setSelectedAccountId] = useState("");
-  const [transferHistory, setTransferHistory] = useState<Transfer[]>([]);
+  const [accountBalance, setAccountBalance] = useState<number | null>(null);
   const [displayNotification, setDisplayNotification] = useState<{
     type: NotificationType;
     message: string;
@@ -42,7 +41,7 @@ export default function TransferHistory({ accounts }: TransferHistoryProps) {
       return;
     }
     try {
-      const res = await fetch(`/api/transfers?accountId=${selectedAccountId}`, {
+      const res = await fetch(`/api/accounts/${selectedAccountId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -52,7 +51,7 @@ export default function TransferHistory({ accounts }: TransferHistoryProps) {
       const data = await res.json();
 
       if (!res.ok) {
-        console.log(data.error || "Error fetching history");
+        console.log(data.error || "Error fetching balance");
         setDisplayNotification({
           type: NotificationType.ERROR,
           message: data.error,
@@ -60,7 +59,7 @@ export default function TransferHistory({ accounts }: TransferHistoryProps) {
         return;
       }
 
-      setTransferHistory(data);
+      setAccountBalance(data.balance);
     } catch (err) {
       console.error(err);
     }
@@ -75,7 +74,7 @@ export default function TransferHistory({ accounts }: TransferHistoryProps) {
         />
       )}
       <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <h2 className="text-md font-semibold mb-4">Transfer History</h2>
+        <h2 className="text-md font-semibold mb-4">Account Balance</h2>
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm mb-2"
@@ -90,7 +89,7 @@ export default function TransferHistory({ accounts }: TransferHistoryProps) {
             disabled={accounts.length === 0}
             onChange={(e) => {
               setSelectedAccountId(e.target.value);
-              setTransferHistory([]);
+              setAccountBalance(null);
             }}
           >
             {accounts.map((account) => (
@@ -104,32 +103,16 @@ export default function TransferHistory({ accounts }: TransferHistoryProps) {
           className="text-sm bg-indigo-500 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-4"
           onClick={getTransferHistory}
         >
-          Get History
+          Get Balance
         </button>
-        {transferHistory.length > 0 && (
+        {accountBalance && (
           <ul className="space-y-2">
-            <li className="grid grid-cols-2 border-b pb-2 text-xs">
-              <p>Amount:</p>
-              <p>Date:</p>
+            <li className="grid grid-cols-1 border-b pb-2 text-xs">
+              <p>Balance:</p>
             </li>
-            {transferHistory.map((transfer, index) => (
-              <li
-                key={index}
-                className="grid grid-cols-2 border-b pb-2 text-sm"
-              >
-                <p
-                  className={classNames(
-                    transfer.toAccountId === selectedAccountId &&
-                      "text-green-500"
-                  )}
-                >
-                  {transfer.toAccountId === selectedAccountId && "+"}$
-                  {transfer.amount.toFixed(2)}
-                </p>
-
-                <p>{new Date(transfer.timestamp).toLocaleString()}</p>
-              </li>
-            ))}
+            <li className="grid grid-cols-1 border-b pb-2 text-sm">
+              <p>${accountBalance.toFixed(2)}</p>
+            </li>
           </ul>
         )}
       </div>

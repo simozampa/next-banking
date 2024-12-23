@@ -33,11 +33,16 @@ export default function CreateAccountForm({
     try {
       const res = await fetch("/api/customers");
       const data = await res.json();
+
       if (!res.ok) {
         console.error("Error fetching customers");
+        return;
       }
+
       setCustomers(data);
-      setCustomerId(data[0].id);
+      if (data && data.length > 0) {
+        setCustomerId(data[0].id);
+      }
     } catch (err) {
       console.error(err);
     }

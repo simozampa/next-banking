@@ -1,3 +1,4 @@
+import AccountBalance from "@/components/accounts/AccountBalance";
 import AccountList from "@/components/accounts/AccountsList";
 import CreateAccountForm from "@/components/accounts/CreateAccountForm";
 import { BankAccount } from "@/utils/types";
@@ -24,6 +25,7 @@ export default function AccountsPage() {
     <div className="space-y-8 max-w-3xl mx-auto">
       <CreateAccountForm onAccountCreated={refreshAccounts} />
       {accounts.length > 0 && <AccountList accounts={accounts} />}
+      {accounts.length > 0 && <AccountBalance accounts={accounts} />}
     </div>
   );
 }
