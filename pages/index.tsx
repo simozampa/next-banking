@@ -12,12 +12,20 @@ export default function CustomersPage() {
 
   const refreshCustomers = async () => {
     try {
-      const res = await fetch("/api/customers");
+      const res = await fetch("/api/customers", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
       const data = await res.json();
+
       if (!res.ok) {
         console.error("Error fetching customers");
         return;
       }
+
       setCustomers(data);
     } catch (err) {
       console.error(err);

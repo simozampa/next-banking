@@ -31,7 +31,12 @@ export default function CreateAccountForm({
 
   const fetchCustomers = async () => {
     try {
-      const res = await fetch("/api/customers");
+      const res = await fetch("/api/customers", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       const data = await res.json();
 
       if (!res.ok) {
@@ -66,10 +71,9 @@ export default function CreateAccountForm({
           type: NotificationType.ERROR,
           message: data.error,
         });
-
         return;
       }
-      setCustomerId("");
+
       setInitialDeposit(0);
       onAccountCreated();
       console.log(`Account created: ${data.id}`);
