@@ -12,7 +12,12 @@ export default function TransfersPage() {
 
   const fetchAccounts = async () => {
     try {
-      const res = await fetch("/api/accounts");
+      const res = await fetch("/api/accounts", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       const data = await res.json();
       setAccounts(data);
     } catch (err) {
