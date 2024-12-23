@@ -105,7 +105,7 @@ export default function AccountBalance({ accounts }: TransferHistoryProps) {
         >
           Get Balance
         </button>
-        {accountBalance && (
+        {accountBalance !== null && (
           <ul className="space-y-2">
             <li className="grid grid-cols-1 border-b pb-2 text-xs">
               <p>Balance:</p>
